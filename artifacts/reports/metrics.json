@@ -1,0 +1,95 @@
+{
+  "accuracy": 0.8019872249822569,
+  "precision": 0.6907630522088354,
+  "recall": 0.45989304812834225,
+  "f1_score": 0.5521669341894061,
+  "roc_auc": 0.8461417241468392,
+  "pr_auc": 0.6559987108430372,
+  "confusion_matrix": [
+    [
+      958,
+      77
+    ],
+    [
+      202,
+      172
+    ]
+  ],
+  "classification_report": {
+    "0": {
+      "precision": 0.8258620689655173,
+      "recall": 0.9256038647342996,
+      "f1-score": 0.8728929384965831,
+      "support": 1035.0
+    },
+    "1": {
+      "precision": 0.6907630522088354,
+      "recall": 0.45989304812834225,
+      "f1-score": 0.5521669341894061,
+      "support": 374.0
+    },
+    "accuracy": 0.8019872249822569,
+    "macro avg": {
+      "precision": 0.7583125605871763,
+      "recall": 0.6927484564313209,
+      "f1-score": 0.7125299363429947,
+      "support": 1409.0
+    },
+    "weighted avg": {
+      "precision": 0.7900018615368452,
+      "recall": 0.8019872249822569,
+      "f1-score": 0.7877605569416618,
+      "support": 1409.0
+    }
+  },
+  "best_model": "rf",
+  "model_tuned": true,
+  "best_params": {
+    "model__max_depth": 24,
+    "model__min_samples_leaf": 1,
+    "model__min_samples_split": 13,
+    "model__n_estimators": 513
+  },
+  "cv_results": {
+    "lr": {
+      "roc_auc_mean": 0.8413542970741626,
+      "f1_mean": 0.6057961339329627,
+      "precision_mean": 0.6449320680743376,
+      "recall_mean": 0.5718961349740982
+    },
+    "lr_balanced": {
+      "roc_auc_mean": 0.8374594881850923,
+      "f1_mean": 0.6225692965458226,
+      "precision_mean": 0.5394098417005567,
+      "recall_mean": 0.7364528253293736
+    },
+    "rf": {
+      "roc_auc_mean": 0.8534190661600825,
+      "f1_mean": 0.5830642826234036,
+      "precision_mean": 0.6973861634184241,
+      "recall_mean": 0.5016700066800267
+    },
+    "rf_balanced": {
+      "roc_auc_mean": 0.8526304576285851,
+      "f1_mean": 0.5987103419012719,
+      "precision_mean": 0.678130892329345,
+      "recall_mean": 0.5364544349743664
+    },
+    "lr_smote": {
+      "roc_auc_mean": 0.8326677093111333,
+      "f1_mean": 0.6179619544400415,
+      "precision_mean": 0.5502907493763507,
+      "recall_mean": 0.7050124345075695
+    },
+    "rf_smote": {
+      "roc_auc_mean": 0.8492669086333855,
+      "f1_mean": 0.6097851758689156,
+      "precision_mean": 0.6423519857744839,
+      "recall_mean": 0.5812642688321757
+    }
+  },
+  "class_distribution": {
+    "0": 5174,
+    "1": 1869
+  }
+}

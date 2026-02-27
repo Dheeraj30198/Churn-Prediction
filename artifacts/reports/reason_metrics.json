@@ -1,0 +1,72 @@
+{
+  "rows_used": 1869,
+  "num_reason_classes": 7,
+  "grouped_reasons": true,
+  "weighted_f1": 0.17071194118130467,
+  "classification_report": {
+    "Competitor": {
+      "precision": 0.3324396782841823,
+      "recall": 1.0,
+      "f1-score": 0.49899396378269617,
+      "support": 124.0
+    },
+    "Digital Experience": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 18.0
+    },
+    "Other": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 72.0
+    },
+    "Pricing": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 40.0
+    },
+    "Product/Service": {
+      "precision": 1.0,
+      "recall": 0.014705882352941176,
+      "f1-score": 0.028985507246376812,
+      "support": 68.0
+    },
+    "Relocation": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 10.0
+    },
+    "Support Experience": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 42.0
+    },
+    "accuracy": 0.3342245989304813,
+    "macro avg": {
+      "precision": 0.1903485254691689,
+      "recall": 0.1449579831932773,
+      "f1-score": 0.07542563871843899,
+      "support": 374.0
+    },
+    "weighted avg": {
+      "precision": 0.292038823816146,
+      "recall": 0.3342245989304813,
+      "f1-score": 0.17071194118130467,
+      "support": 374.0
+    }
+  },
+  "reason_distribution": {
+    "Competitor": 621,
+    "Other": 359,
+    "Product/Service": 338,
+    "Support Experience": 211,
+    "Pricing": 199,
+    "Digital Experience": 88,
+    "Relocation": 53
+  }
+}

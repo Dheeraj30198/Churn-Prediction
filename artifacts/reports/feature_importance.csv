@@ -1,0 +1,26 @@
+feature,importance
+num__Tenure Months,0.062876451029001
+num__Total Charges,0.05562483707819749
+cat__Contract_Month-to-month,0.0520480656321426
+num__Monthly Charges,0.03337752542259763
+cat__Online Security_No,0.029007649610369144
+cat__Internet Service_Fiber optic,0.027853399534727992
+cat__Tech Support_No,0.026948603716011262
+cat__Dependents_Yes,0.026021165639748364
+cat__Payment Method_Electronic check,0.025718728215779783
+cat__Dependents_No,0.025352060559801836
+cat__Contract_Two year,0.021741802405547513
+cat__Internet Service_DSL,0.0182085973588263
+cat__Online Backup_No,0.018015280875834486
+num__Zip Code,0.0174429349844788
+num__Latitude,0.016989428830926898
+cat__Contract_One year,0.016386073094789178
+num__Longitude,0.016236236070084765
+cat__Tech Support_Yes,0.015934413046426406
+cat__Online Security_Yes,0.015833575228333084
+cat__Device Protection_No,0.015454657504038363
+cat__Paperless Billing_Yes,0.010919196971665927
+cat__Paperless Billing_No,0.010463527998170281
+cat__Streaming Movies_No internet service,0.009772387207746992
+cat__Tech Support_No internet service,0.008827645035185938
+cat__Device Protection_No internet service,0.008009983539556608

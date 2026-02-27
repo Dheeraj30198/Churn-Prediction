@@ -1,0 +1,34 @@
+feature,missing_count,missing_pct
+Churn Reason,5174,73.46
+CustomerID,0,0.0
+Count,0,0.0
+State,0,0.0
+Country,0,0.0
+Zip Code,0,0.0
+Lat Long,0,0.0
+Latitude,0,0.0
+City,0,0.0
+Gender,0,0.0
+Senior Citizen,0,0.0
+Partner,0,0.0
+Dependents,0,0.0
+Tenure Months,0,0.0
+Phone Service,0,0.0
+Multiple Lines,0,0.0
+Longitude,0,0.0
+Internet Service,0,0.0
+Online Security,0,0.0
+Device Protection,0,0.0
+Online Backup,0,0.0
+Streaming TV,0,0.0
+Streaming Movies,0,0.0
+Contract,0,0.0
+Tech Support,0,0.0
+Paperless Billing,0,0.0
+Payment Method,0,0.0
+Total Charges,0,0.0
+Monthly Charges,0,0.0
+Churn Label,0,0.0
+Churn Value,0,0.0
+Churn Score,0,0.0
+CLTV,0,0.0
