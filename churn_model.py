@@ -150,6 +150,39 @@ def prepare_features(df: pd.DataFrame, target_col: str) -> tuple[pd.DataFrame, p
     return x, y.astype(int)
 
 
+def prepare_reason_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    required_cols = {"Churn Value", "Churn Reason"}
+    missing_cols = [c for c in required_cols if c not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Dataset missing required columns for reason model: {missing_cols}")
+
+    data = df.copy()
+    for col in data.select_dtypes(include=["object", "string"]).columns:
+        data[col] = data[col].astype("string").str.strip()
+
+    if "Total Charges" in data.columns:
+        data["Total Charges"] = pd.to_numeric(data["Total Charges"], errors="coerce")
+
+    churn_numeric = pd.to_numeric(data["Churn Value"], errors="coerce")
+    churned = data[churn_numeric == 1].copy()
+
+    reasons = churned["Churn Reason"].astype("string").str.strip()
+    valid_reason = reasons.notna() & (reasons != "") & (reasons.str.lower() != "nan")
+    churned = churned[valid_reason].copy()
+
+    if churned.empty:
+        raise ValueError("No valid churned rows with non-empty 'Churn Reason' found.")
+
+    y = churned["Churn Reason"].astype(str)
+    drop_cols = {"CustomerID", "Churn Reason"} | LEAKAGE_COLUMNS
+    x = churned.drop(columns=[col for col in drop_cols if col in churned.columns], errors="ignore")
+
+    if y.nunique() < 2:
+        raise ValueError("Reason model requires at least 2 reason classes.")
+
+    return x, y
+
+
 def build_preprocessor(x: pd.DataFrame) -> ColumnTransformer:
     numeric_cols = x.select_dtypes(include=["number"]).columns.tolist()
     categorical_cols = x.select_dtypes(exclude=["number"]).columns.tolist()
@@ -251,6 +284,15 @@ def evaluate_model(model: object, x_test: pd.DataFrame, y_test: pd.Series) -> di
     }
 
 
+def evaluate_reason_model(model: object, x_test: pd.DataFrame, y_test: pd.Series) -> dict:
+    y_pred = model.predict(x_test)
+    return {
+        "accuracy": float(accuracy_score(y_test, y_pred)),
+        "f1_macro": float(f1_score(y_test, y_pred, average="macro", zero_division=0)),
+        "classification_report": classification_report(y_test, y_pred, output_dict=True, zero_division=0),
+    }
+
+
 def tune_model(base_model: object, model_name: str, random_state: int, n_iter: int) -> object:
     param_distributions = {}
     if "lr" in model_name:
@@ -319,6 +361,84 @@ def export_feature_importance(model: object, output_path: Path, top_n: int = 25)
     plt.tight_layout()
     plt.savefig(output_path.with_suffix(".png"), dpi=150)
     plt.close()
+
+
+def train_reason_model(
+    df: pd.DataFrame,
+    artifact_dir: Path,
+    test_size: float = 0.2,
+    random_state: int = 42,
+) -> dict:
+    model_dir = artifact_dir / "models"
+    reports_dir = artifact_dir / "reports"
+    model_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
+
+    x, y = prepare_reason_features(df)
+
+    reason_counts = y.value_counts()
+    keep_classes = reason_counts[reason_counts >= 2].index
+    keep_mask = y.isin(keep_classes)
+    x = x[keep_mask]
+    y = y[keep_mask]
+
+    if y.nunique() < 2:
+        raise ValueError("Reason model requires at least 2 classes with enough samples for split.")
+
+    try:
+        x_train, x_test, y_train, y_test = train_test_split(
+            x,
+            y,
+            test_size=test_size,
+            random_state=random_state,
+            stratify=y,
+        )
+    except ValueError:
+        x_train, x_test, y_train, y_test = train_test_split(
+            x,
+            y,
+            test_size=test_size,
+            random_state=random_state,
+            stratify=None,
+        )
+
+    preprocessor = build_preprocessor(x)
+    pipeline = Pipeline(
+        steps=[
+            ("preprocessor", preprocessor),
+            (
+                "model",
+                RandomForestClassifier(
+                    n_estimators=500,
+                    max_depth=25,
+                    min_samples_leaf=2,
+                    random_state=random_state,
+                    n_jobs=-1,
+                    class_weight="balanced_subsample",
+                ),
+            ),
+        ]
+    )
+
+    pipeline.fit(x_train, y_train)
+    metrics = evaluate_reason_model(pipeline, x_test, y_test)
+    metrics["rows_used"] = int(len(x))
+    metrics["num_reason_classes"] = int(y.nunique())
+    metrics["reason_distribution"] = {str(k): int(v) for k, v in y.value_counts().to_dict().items()}
+
+    model_path = model_dir / "reason_model.joblib"
+    metrics_path = reports_dir / "reason_metrics.json"
+
+    joblib.dump(pipeline, model_path)
+    with open(metrics_path, "w", encoding="utf-8") as f:
+        json.dump(metrics, f, indent=2)
+
+    print(f"Reason model saved to: {model_path}")
+    print(f"Reason metrics saved to: {metrics_path}")
+    print(f"Reason model accuracy: {metrics['accuracy']:.4f}")
+    print(f"Reason model F1-macro: {metrics['f1_macro']:.4f}")
+
+    return metrics
 
 
 def train(args: argparse.Namespace) -> None:
@@ -425,6 +545,17 @@ def train(args: argparse.Namespace) -> None:
     print(f"Metrics saved to: {metrics_path}")
     print(f"EDA output directory: {eda_dir}")
 
+    if args.train_reason_model:
+        try:
+            train_reason_model(
+                df=df,
+                artifact_dir=artifact_dir,
+                test_size=args.test_size,
+                random_state=args.random_state,
+            )
+        except Exception as exc:
+            print(f"Reason model training skipped due to error: {exc}")
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Churn prediction workflow with EDA + model improvement.")
@@ -437,6 +568,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cv-folds", type=int, default=3)
     parser.add_argument("--skip-eda", action="store_true")
     parser.add_argument("--skip-tuning", action="store_true")
+    parser.add_argument("--train-reason-model", action="store_true")
     return parser.parse_args()
 
 

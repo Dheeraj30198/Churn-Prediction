@@ -1,0 +1,7 @@
+Count,Country,State,City,Zip Code,Lat Long,Latitude,Longitude,Gender,Senior Citizen,Partner,Dependents,Tenure Months,Phone Service,Multiple Lines,Internet Service,Online Security,Online Backup,Device Protection,Tech Support,Streaming TV,Streaming Movies,Contract,Paperless Billing,Payment Method,Monthly Charges,Total Charges,Churn Value,Churn Reason
+1,United States,California,Los Angeles,90001,"33.973616, -118.24902",33.973616,-118.24902,Female,0,No,No,3,Yes,No,Fiber optic,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,90.2,270.6,1,Moved
+2,United States,Texas,Austin,73301,"30.271128, -97.743699",30.271128,-97.743699,Male,0,Yes,Yes,48,Yes,Yes,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Two year,No,Bank transfer (automatic),89.5,4296.0,0,No churn
+3,United States,New York,New York,10001,"40.712776, -74.005974",40.712776,-74.005974,Female,0,No,No,12,Yes,No,Fiber optic,No,Yes,No,Yes,No,No,Month-to-month,Yes,Electronic check,97.0,1164.0,1,No reason
+4,United States,Washington,Seattle,98101,"47.606209, -122.332069",47.606209,-122.332069,Male,0,Yes,No,24,Yes,No,DSL,Yes,No,No,No,No,No,One year,Yes,Credit card (automatic),57.6,1382.4,0,No churn
+5,United States,Florida,Miami,33101,"25.76168, -80.19179",25.76168,-80.19179,Female,1,No,No,5,No,No,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,65.5,327.5,1,Price
+6,United States,Illinois,Chicago,60601,"41.878113, -87.629799",41.878113,-87.629799,Male,0,Yes,Yes,60,Yes,Yes,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Two year,No,Bank transfer (automatic),105.4,6324.0,0,No churn

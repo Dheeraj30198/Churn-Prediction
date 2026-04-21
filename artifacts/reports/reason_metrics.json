@@ -1,72 +1,163 @@
 {
-  "rows_used": 1869,
-  "num_reason_classes": 7,
-  "grouped_reasons": true,
-  "weighted_f1": 0.17071194118130467,
+  "accuracy": 0.07219251336898395,
+  "f1_macro": 0.05728565344089624,
   "classification_report": {
-    "Competitor": {
-      "precision": 0.3324396782841823,
-      "recall": 1.0,
-      "f1-score": 0.49899396378269617,
-      "support": 124.0
+    "Attitude of service provider": {
+      "precision": 0.15384615384615385,
+      "recall": 0.07407407407407407,
+      "f1-score": 0.1,
+      "support": 27.0
     },
-    "Digital Experience": {
+    "Attitude of support person": {
+      "precision": 0.2,
+      "recall": 0.13157894736842105,
+      "f1-score": 0.15873015873015872,
+      "support": 38.0
+    },
+    "Competitor had better devices": {
+      "precision": 0.09090909090909091,
+      "recall": 0.07692307692307693,
+      "f1-score": 0.08333333333333333,
+      "support": 26.0
+    },
+    "Competitor made better offer": {
+      "precision": 0.0967741935483871,
+      "recall": 0.10714285714285714,
+      "f1-score": 0.1016949152542373,
+      "support": 28.0
+    },
+    "Competitor offered higher download speeds": {
+      "precision": 0.3333333333333333,
+      "recall": 0.10526315789473684,
+      "f1-score": 0.16,
+      "support": 38.0
+    },
+    "Competitor offered more data": {
+      "precision": 0.08333333333333333,
+      "recall": 0.03125,
+      "f1-score": 0.045454545454545456,
+      "support": 32.0
+    },
+    "Deceased": {
       "precision": 0.0,
       "recall": 0.0,
       "f1-score": 0.0,
+      "support": 1.0
+    },
+    "Don't know": {
+      "precision": 0.375,
+      "recall": 0.0967741935483871,
+      "f1-score": 0.15384615384615385,
+      "support": 31.0
+    },
+    "Extra data charges": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 11.0
+    },
+    "Lack of affordable download/upload speed": {
+      "precision": 0.03571428571428571,
+      "recall": 0.1111111111111111,
+      "f1-score": 0.05405405405405406,
+      "support": 9.0
+    },
+    "Lack of self-service on Website": {
+      "precision": 0.05263157894736842,
+      "recall": 0.05555555555555555,
+      "f1-score": 0.05405405405405406,
       "support": 18.0
     },
-    "Other": {
+    "Limited range of services": {
       "precision": 0.0,
       "recall": 0.0,
       "f1-score": 0.0,
-      "support": 72.0
+      "support": 9.0
     },
-    "Pricing": {
+    "Long distance charges": {
       "precision": 0.0,
       "recall": 0.0,
       "f1-score": 0.0,
-      "support": 40.0
+      "support": 9.0
     },
-    "Product/Service": {
-      "precision": 1.0,
-      "recall": 0.014705882352941176,
-      "f1-score": 0.028985507246376812,
-      "support": 68.0
-    },
-    "Relocation": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1-score": 0.0,
+    "Moved": {
+      "precision": 0.03125,
+      "recall": 0.1,
+      "f1-score": 0.047619047619047616,
       "support": 10.0
     },
-    "Support Experience": {
+    "Network reliability": {
       "precision": 0.0,
       "recall": 0.0,
       "f1-score": 0.0,
-      "support": 42.0
+      "support": 21.0
     },
-    "accuracy": 0.3342245989304813,
+    "Poor expertise of online support": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "Poor expertise of phone support": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "Price too high": {
+      "precision": 0.06060606060606061,
+      "recall": 0.1,
+      "f1-score": 0.07547169811320754,
+      "support": 20.0
+    },
+    "Product dissatisfaction": {
+      "precision": 0.07142857142857142,
+      "recall": 0.05,
+      "f1-score": 0.058823529411764705,
+      "support": 20.0
+    },
+    "Service dissatisfaction": {
+      "precision": 0.05,
+      "recall": 0.05555555555555555,
+      "f1-score": 0.05263157894736842,
+      "support": 18.0
+    },
+    "accuracy": 0.07219251336898395,
     "macro avg": {
-      "precision": 0.1903485254691689,
-      "recall": 0.1449579831932773,
-      "f1-score": 0.07542563871843899,
+      "precision": 0.08174133008332922,
+      "recall": 0.05476142645868877,
+      "f1-score": 0.05728565344089624,
       "support": 374.0
     },
     "weighted avg": {
-      "precision": 0.292038823816146,
-      "recall": 0.3342245989304813,
-      "f1-score": 0.17071194118130467,
+      "precision": 0.13076867086455757,
+      "recall": 0.07219251336898395,
+      "f1-score": 0.08454162956285984,
       "support": 374.0
     }
   },
+  "rows_used": 1869,
+  "num_reason_classes": 20,
   "reason_distribution": {
-    "Competitor": 621,
-    "Other": 359,
-    "Product/Service": 338,
-    "Support Experience": 211,
-    "Pricing": 199,
-    "Digital Experience": 88,
-    "Relocation": 53
+    "Attitude of support person": 192,
+    "Competitor offered higher download speeds": 189,
+    "Competitor offered more data": 162,
+    "Don't know": 154,
+    "Competitor made better offer": 140,
+    "Attitude of service provider": 135,
+    "Competitor had better devices": 130,
+    "Network reliability": 103,
+    "Product dissatisfaction": 102,
+    "Price too high": 98,
+    "Service dissatisfaction": 89,
+    "Lack of self-service on Website": 88,
+    "Extra data charges": 57,
+    "Moved": 53,
+    "Limited range of services": 44,
+    "Lack of affordable download/upload speed": 44,
+    "Long distance charges": 44,
+    "Poor expertise of phone support": 20,
+    "Poor expertise of online support": 19,
+    "Deceased": 6
   }
 }

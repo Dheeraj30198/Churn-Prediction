@@ -28,15 +28,10 @@ def save_tabular(df: pd.DataFrame, path: Path) -> None:
 
 def align_input_columns(df: pd.DataFrame, expected_cols: list[str]) -> pd.DataFrame:
     aligned = df.copy()
-
     missing = [c for c in expected_cols if c not in aligned.columns]
     for col in missing:
         aligned[col] = pd.NA
-
-    # Keep only expected columns and exact ordering used in training.
-    aligned = aligned[expected_cols]
-
-    return aligned
+    return aligned[expected_cols]
 
 
 def run_inference(
@@ -50,35 +45,34 @@ def run_inference(
     reason_model = None
     if reason_model_path is not None and reason_model_path.exists():
         reason_model = joblib.load(reason_model_path)
+
     data = load_tabular(input_path)
 
-    if not hasattr(model, "named_steps") or "preprocessor" not in model.named_steps:
-        raise ValueError("Loaded model does not expose a preprocessor step.")
+    preprocessor = model.named_steps.get("preprocessor") if hasattr(model, "named_steps") else None
+    if preprocessor is None or not hasattr(preprocessor, "feature_names_in_"):
+        raise ValueError("Loaded churn model does not expose expected input columns.")
 
-    preprocessor = model.named_steps["preprocessor"]
-    if not hasattr(preprocessor, "feature_names_in_"):
-        raise ValueError("Model preprocessor does not expose expected input columns.")
-
-    expected_cols = list(preprocessor.feature_names_in_)
-    model_input = align_input_columns(data, expected_cols)
-
-    probs = model.predict_proba(model_input)[:, 1]
+    churn_input = align_input_columns(data, list(preprocessor.feature_names_in_))
+    probs = model.predict_proba(churn_input)[:, 1]
     labels = (probs >= threshold).astype(int)
 
     result = data.copy()
     result["churn_probability"] = probs.round(6)
     result["predicted_churn_label"] = labels
     result["predicted_churn_text"] = result["predicted_churn_label"].map({1: "Yes", 0: "No"})
-    result["predicted_churn_reason"] = "Low churn risk"
+    result["predicted_churn_reason"] = "Not Applicable"
 
-    if reason_model is not None:
+    if reason_model is not None and hasattr(reason_model, "named_steps"):
         reason_preprocessor = reason_model.named_steps.get("preprocessor")
-        expected_reason_cols = list(reason_preprocessor.feature_names_in_)
-        reason_input = align_input_columns(data, expected_reason_cols)
-        reason_pred = reason_model.predict(reason_input)
-        for i, p in enumerate(probs):
-            if p >= threshold:
-                result.loc[result.index[i], "predicted_churn_reason"] = reason_pred[i]
+        if reason_preprocessor is not None and hasattr(reason_preprocessor, "feature_names_in_"):
+            reason_input = align_input_columns(data, list(reason_preprocessor.feature_names_in_))
+            churn_idx = result["predicted_churn_label"] == 1
+            if churn_idx.any():
+                try:
+                    reason_pred = reason_model.predict(reason_input.loc[churn_idx])
+                    result.loc[churn_idx, "predicted_churn_reason"] = reason_pred
+                except Exception:
+                    result.loc[churn_idx, "predicted_churn_reason"] = "Unknown"
 
     result["recommended_next_action"] = [
         recommend_next_action(
@@ -94,33 +88,15 @@ def run_inference(
     print(f"Rows scored: {len(result)}")
     print(f"Threshold: {threshold}")
     print(f"Output saved to: {output_path}")
-    print(
-        result[
-            [
-                "churn_probability",
-                "predicted_churn_label",
-                "predicted_churn_text",
-                "predicted_churn_reason",
-                "recommended_next_action",
-            ]
-        ]
-        .head(10)
-        .to_string(index=False)
-    )
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Predict churn probability and label from real-world input.")
+    parser = argparse.ArgumentParser(description="Predict churn probability and reason from input data.")
     parser.add_argument("--model-path", type=str, default="artifacts/models/churn_model.joblib")
-    parser.add_argument(
-        "--reason-model-path",
-        type=str,
-        default="artifacts/models/churn_reason_model.joblib",
-        help="Optional churn reason model path.",
-    )
-    parser.add_argument("--input-path", type=str, required=True, help="Input .csv/.xlsx with customer rows.")
+    parser.add_argument("--reason-model-path", type=str, default="artifacts/models/reason_model.joblib")
+    parser.add_argument("--input-path", type=str, required=True)
     parser.add_argument("--output-path", type=str, default="artifacts/predictions/predictions.csv")
-    parser.add_argument("--threshold", type=float, default=0.5, help="Decision threshold for churn label.")
+    parser.add_argument("--threshold", type=float, default=0.5)
     return parser.parse_args()
 
 
