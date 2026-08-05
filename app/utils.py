@@ -6,14 +6,24 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import roc_auc_score
 
-from app.config import (
-    CHURN_OUTPUT_COL,
-    LOW_RISK_MAX,
-    MEDIUM_RISK_MAX,
-    PROBABILITY_COL,
-    REASON_COL,
-    RISK_COL,
-)
+try:
+    from app.config import (
+        CHURN_OUTPUT_COL,
+        LOW_RISK_MAX,
+        MEDIUM_RISK_MAX,
+        PROBABILITY_COL,
+        REASON_COL,
+        RISK_COL,
+    )
+except ImportError:
+    from config import (  # noqa: F401
+        CHURN_OUTPUT_COL,
+        LOW_RISK_MAX,
+        MEDIUM_RISK_MAX,
+        PROBABILITY_COL,
+        REASON_COL,
+        RISK_COL,
+    )
 
 
 def load_json(path: Path) -> dict:
