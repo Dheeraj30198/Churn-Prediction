@@ -379,7 +379,7 @@ with col_dl1:
 st.markdown("""
 <div class="footer">
     Built with ❤️ using Streamlit · 
-    <a href="https://github.com/Dheeraj30198/Churn-Prediction" style="color:#7C3AED; text-decoration:none;">
+    <a href="https://github.com/jeellukhi/Churn-Prediction-System" style="color:#7C3AED; text-decoration:none;">
         GitHub Repo
     </a>
 </div>
