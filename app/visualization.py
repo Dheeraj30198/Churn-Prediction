@@ -3,7 +3,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.metrics import confusion_matrix
 
-from app.config import CHURN_OUTPUT_COL, PROBABILITY_COL, REASON_COL, RISK_COL
+try:
+    from app.config import CHURN_OUTPUT_COL, PROBABILITY_COL, REASON_COL, RISK_COL
+except ImportError:
+    from config import CHURN_OUTPUT_COL, PROBABILITY_COL, REASON_COL, RISK_COL
 
 # ── Shared colour palette ──────────────────────────────────────────────────────
 PURPLE   = "#7C3AED"

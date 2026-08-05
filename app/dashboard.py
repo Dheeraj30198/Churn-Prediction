@@ -1,7 +1,13 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# Add both the repo root AND the app/ directory to sys.path
+# so all imports resolve correctly on Streamlit Cloud
+_repo_root = Path(__file__).resolve().parent.parent
+_app_dir   = Path(__file__).resolve().parent
+for _p in [str(_repo_root), str(_app_dir)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
 
