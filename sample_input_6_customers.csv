@@ -5,3 +5,4 @@ Count,Country,State,City,Zip Code,Lat Long,Latitude,Longitude,Gender,Senior Citi
 4,United States,Washington,Seattle,98101,"47.606209, -122.332069",47.606209,-122.332069,Male,0,Yes,No,24,Yes,No,DSL,Yes,No,No,No,No,No,One year,Yes,Credit card (automatic),57.6,1382.4,0,No churn
 5,United States,Florida,Miami,33101,"25.76168, -80.19179",25.76168,-80.19179,Female,1,No,No,5,No,No,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,65.5,327.5,1,Price
 6,United States,Illinois,Chicago,60601,"41.878113, -87.629799",41.878113,-87.629799,Male,0,Yes,Yes,60,Yes,Yes,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Two year,No,Bank transfer (automatic),105.4,6324.0,0,No churn
+6,United States,Albuquerque ,New Mexico,87101 ,"41.878113, -87.629799",41.878113,-87.629799,Male,0,Yes,Yes,60,Yes,Yes,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Two year,No,Bank transfer (automatic),105.4,6324.0,0,No churn
